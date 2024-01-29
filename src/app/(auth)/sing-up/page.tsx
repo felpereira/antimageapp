@@ -6,7 +6,7 @@ import { Button } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Button';
 import { Input } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Input';
 import { Text } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Text';
 import { AxiosError } from 'axios';
-import { redirect, useRouter } from 'next/navigation';
+import {  useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
@@ -22,9 +22,9 @@ const CreateAccountDataSchema = zod
         senhaUsuario: zod.string().min(1, 'Digite sua senha'),
         senhaConfirmaUsuario: zod.string().min(1, 'Confirme sua senha')
     })
-    .refine(data => data.senhaUsuario === data.senhaConfirmaUsuario, {
+    .refine((data: any) => data.senhaUsuario === data.senhaConfirmaUsuario, {
         message: 'As senhas não coincidem.',
-        path: ['senhaConfirmaUsuario'] // path of error
+        path: ['senhaConfirmaUsuario'] 
     });
 
 // refine
