@@ -1,0 +1,56 @@
+/* Overall container */
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main card styling */
+.card {
+    width: 20rem;
+    height: 38rem;
+    background: #fff;
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+}
+
+/* Logo container styling */
+.logoContainer {
+    align-self: center;
+}
+
+/* Title styling */
+.title,
+.subtitle {
+    align-self: center;
+    height: 10%;
+}
+
+/* Input container styling */
+.inputContainer {
+    align-self: start;
+    min-width: 100%;
+    min-height: 40%;
+}
+
+/* Button container styling */
+.buttonContainerCreateAccount {
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.3125rem;
+}
+
+.link {
+    text-decoration: none;
+    font-size: 0.75rem;
+}
+
+.criarConta {
+    padding-top: 1rem;
+    text-align: center;
+}
