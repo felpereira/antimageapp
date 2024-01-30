@@ -24,10 +24,14 @@ const CreateAccountDataSchema = zod
         senhaUsuario: zod.string().min(1, 'Digite sua senha'),
         senhaConfirmaUsuario: zod.string().min(1, 'Confirme sua senha')
     })
-    .refine((data: any) => data.senhaUsuario === data.senhaConfirmaUsuario, {
-        message: 'As senhas não coincidem.',
-        path: ['senhaConfirmaUsuario']
-    });
+    .refine(
+        (data: { senhaUsuario: string; senhaConfirmaUsuario: string }) =>
+            data.senhaUsuario === data.senhaConfirmaUsuario,
+        {
+            message: 'As senhas não coincidem.',
+            path: ['senhaConfirmaUsuario']
+        }
+    );
 
 type CreateAccountData = zod.infer<typeof CreateAccountDataSchema>;
 
