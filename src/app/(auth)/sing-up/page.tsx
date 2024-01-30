@@ -1,12 +1,14 @@
 'use client';
 
+import { AlertContext } from '@/contexts/AlertProviderContext';
 import { api } from '@/lib/request/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Button';
 import { Input } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Input';
 import { Text } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Text';
 import { AxiosError } from 'axios';
-import {  useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
@@ -24,15 +26,14 @@ const CreateAccountDataSchema = zod
     })
     .refine((data: any) => data.senhaUsuario === data.senhaConfirmaUsuario, {
         message: 'As senhas não coincidem.',
-        path: ['senhaConfirmaUsuario'] 
+        path: ['senhaConfirmaUsuario']
     });
-
-// refine
 
 type CreateAccountData = zod.infer<typeof CreateAccountDataSchema>;
 
 export default function SingUp() {
     const { push } = useRouter();
+    const valor = useContext(AlertContext);
     const {
         register,
         handleSubmit,
@@ -43,7 +44,6 @@ export default function SingUp() {
     });
 
     const handleCreateAccount = async (data: CreateAccountData) => {
-        console.log(data);
         try {
             const response = await api.post(
                 '/users',
@@ -60,7 +60,12 @@ export default function SingUp() {
                 }
             );
 
-            console.log(response);
+            valor.handleExibirAlerta(
+                `Usuario ${data.nomeUsuario} cadastrado com sucesso`,
+                () => {
+                    redirect('/');
+                }
+            );
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (error.response?.status == 400) {
@@ -70,6 +75,11 @@ export default function SingUp() {
                     return;
                 }
             }
+
+            valor.handleExibirAlerta(
+                `Usuario ${data.nomeUsuario} cadastrado com sucesso`,
+                undefined
+            );
 
             console.error('Erro ao criar conta:', error);
         }
