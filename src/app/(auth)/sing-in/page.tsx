@@ -1,20 +1,22 @@
 'use client';
 
+import { api } from '@/lib/request/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Button';
-import { CheckBox } from 'C:\\Repositorios\\ancient-ui\\src\\components\\CheckBox';
-import { Input } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Input';
-import { Text } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Text';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
+import { Button } from '../../../../ancient-ui/src/components/Button';
+import { CheckBox } from '../../../../ancient-ui/src/components/CheckBox';
+import { Input } from '../../../../ancient-ui/src/components/Input';
+import { Text } from '../../../../ancient-ui/src/components/Text';
 import styles from './page.module.css';
 
 const AccountDataSchema = zod.object({
     nomeUsuario: zod.string().min(1, 'Digite seu Usuário'),
-    senhaUsuario: zod.string().min(1, 'Digite sua senha')
+    senhaUsuario: zod.string().min(1, 'Digite sua senha'),
+    chkLembrarConta: zod.boolean()
 });
 
 type AccountData = zod.infer<typeof AccountDataSchema>;
@@ -30,11 +32,25 @@ export default function SingIn() {
     });
 
     const handleLembrar = () => {
-        console.log(lembrar);
         setLembrar(!lembrar);
     };
 
-    const handleSingIn = (data: AccountData) => {};
+    const handleSingInAsync = async (data: AccountData) => {
+        try {
+            await api.post(
+                '/users',
+                {
+                    nomeUsuario: data.nomeUsuario,
+                    senhaUsuario: data.senhaUsuario
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+        } catch (error) {}
+    };
 
     return (
         <>
@@ -54,7 +70,7 @@ export default function SingIn() {
 
             <form
                 className={styles.inputContainer}
-                onSubmit={handleSubmit(handleSingIn)}
+                onSubmit={handleSubmit(handleSingInAsync)}
             >
                 <Input
                     label="Login"
@@ -74,6 +90,8 @@ export default function SingIn() {
                         isChecked={lembrar}
                         onClick={handleLembrar}
                         label={'Lembrar'}
+                        {...register('chkLembrarConta')}
+                        fieldError={errors.senhaUsuario}
                     />
                     <Link
                         href="/"

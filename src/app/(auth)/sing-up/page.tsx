@@ -51,9 +51,9 @@ export default function SingUp() {
         resolver: zodResolver(CreateAccountDataSchema)
     });
 
-    const handleCreateAccount = async (data: CreateAccountData) => {
+    const handleCreateAccountAsync = async (data: CreateAccountData) => {
         try {
-            await api.post(
+            await api.put(
                 '/users',
                 {
                     nomeUsuario: data.nomeUsuario,
@@ -105,7 +105,7 @@ export default function SingUp() {
             </div>
             <form
                 className={styles.inputContainer}
-                onSubmit={handleSubmit(handleCreateAccount)}
+                onSubmit={handleSubmit(handleCreateAccountAsync)}
             >
                 <Input
                     label="Nome de Usuário"
