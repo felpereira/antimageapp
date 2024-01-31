@@ -4,11 +4,19 @@ import React, { ReactNode, createContext, useMemo, useState } from 'react';
 
 import { AlertCard } from '../../../ancient-ui/src/components/AlertCard';
 
+export interface AlertCardPropsContext {
+    message: string;
+    onClickAgree?: AlertButtonPropsContext;
+    onClickRecuse?: AlertButtonPropsContext;
+}
+
+interface AlertButtonPropsContext {
+    label?: string;
+    onClick?: () => void;
+}
+
 interface AlertContextProps {
-    handleExibirAlerta: (
-        valor: string,
-        callback: (() => void) | undefined
-    ) => void;
+    handleExibirAlerta: (props: AlertCardPropsContext) => void;
 }
 
 export const AlertContext = createContext<AlertContextProps>({
@@ -18,21 +26,43 @@ export const AlertContext = createContext<AlertContextProps>({
 export const AlertProvider: React.FC<{ children: ReactNode }> = ({
     children
 }) => {
-    const [textMessage, setTextMessage] = useState<string | undefined>('');
+    const [buttonAgree, setButtonAgree] = useState<AlertButtonPropsContext>({
+        label: 'OK'
+    });
 
-    const handleExibirAlerta = (
-        text: string,
-        callback: (() => void) | undefined = undefined
-    ) => {
-        setTextMessage(text);
+    const [buttonRecuse, setButtonRecuse] = useState<
+        AlertButtonPropsContext | undefined
+    >(undefined);
 
-        if (callback) {
-            callback();
+    const [textMessage, setTextMessage] = useState<string | undefined>(
+        undefined
+    );
+
+    const handleExibirAlerta = (props: AlertCardPropsContext) => {
+        setTextMessage(props.message);
+
+        if (props.onClickAgree) {
+            setButtonAgree(props.onClickAgree);
+        }
+        if (props.onClickRecuse) {
+            setButtonRecuse(props.onClickRecuse);
         }
     };
 
-    const handleFecharAlerta = () => {
+    const handleRecuse = () => {
         setTextMessage(undefined);
+
+        if (buttonAgree.onClick) {
+            buttonAgree.onClick();
+        }
+    };
+
+    const handleAgree = () => {
+        setTextMessage(undefined);
+
+        if (buttonRecuse?.onClick) {
+            buttonRecuse.onClick();
+        }
     };
 
     const context = useMemo(
@@ -46,7 +76,10 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({
         <AlertContext.Provider value={context}>
             <AlertCard
                 text={textMessage}
-                onClickRecuse={handleFecharAlerta}
+                onClickAgree={handleAgree}
+                labelAgree={buttonAgree.label}
+                labelRecuse={buttonRecuse?.label}
+                onClickRecuse={handleRecuse}
             />
             {children}
         </AlertContext.Provider>

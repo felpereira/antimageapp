@@ -1,17 +1,20 @@
 'use client';
 
-import { AlertContext } from '@/contexts/AlertProviderContext';
+import {
+    AlertCardPropsContext,
+    AlertContext
+} from '@/contexts/AlertProviderContext';
 import { api } from '@/lib/request/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Button';
-import { Input } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Input';
-import { Text } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Text';
 import { AxiosError } from 'axios';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
+import { Button } from '../../../../ancient-ui/src/components/Button';
+import { Input } from '../../../../ancient-ui/src/components/Input';
+import { Text } from '../../../../ancient-ui/src/components/Text';
 import styles from './page.module.css';
 
 const CreateAccountDataSchema = zod
@@ -37,7 +40,8 @@ type CreateAccountData = zod.infer<typeof CreateAccountDataSchema>;
 
 export default function SingUp() {
     const { push } = useRouter();
-    const valor = useContext(AlertContext);
+
+    const { handleExibirAlerta } = useContext(AlertContext);
     const {
         register,
         handleSubmit,
@@ -49,13 +53,12 @@ export default function SingUp() {
 
     const handleCreateAccount = async (data: CreateAccountData) => {
         try {
-            const response = await api.post(
+            await api.post(
                 '/users',
                 {
                     nomeUsuario: data.nomeUsuario,
                     emailUsuario: data.emailUsuario,
-                    senha: data.senhaConfirmaUsuario,
-                    confirmSenha: data.senhaConfirmaUsuario
+                    senha: data.senhaConfirmaUsuario
                 },
                 {
                     headers: {
@@ -64,12 +67,11 @@ export default function SingUp() {
                 }
             );
 
-            valor.handleExibirAlerta(
-                `Usuario ${data.nomeUsuario} cadastrado com sucesso`,
-                () => {
-                    redirect('/');
-                }
-            );
+            const message: AlertCardPropsContext = {
+                message: `Usuario ${data.nomeUsuario} cadastrado com sucesso`
+            };
+
+            handleExibirAlerta(message);
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (error.response?.status == 400) {
@@ -80,17 +82,15 @@ export default function SingUp() {
                 }
             }
 
-            valor.handleExibirAlerta(
-                `Usuario ${data.nomeUsuario} cadastrado com sucesso`,
-                undefined
-            );
+            const message: AlertCardPropsContext = {
+                message: 'Erro ao criar conta:' + JSON.stringify(error)
+            };
 
-            console.error('Erro ao criar conta:', error);
+            handleExibirAlerta(message);
         }
     };
 
     const handleCancelar = () => {
-        console.log('teste');
         push('/');
     };
 

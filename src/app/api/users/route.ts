@@ -14,8 +14,7 @@ export async function GET(Request: NextApiRequest) {
 }
 
 export async function POST(request: Request, response: NextApiResponse) {
-    const { nomeUsuario, emailUsuario, senha, confirmSenha } =
-        await request.json();
+    const { nomeUsuario, emailUsuario, senha } = await request.json();
 
     const emailExists = await prisma.user.findUnique({
         where: {
@@ -39,7 +38,7 @@ export async function POST(request: Request, response: NextApiResponse) {
 
     if (usuarioExists) {
         return RetornarError(
-            'emailUsuario',
+            'nomeUsuario',
             'O Nome de Usuário já está cadastrado'
         );
     }
