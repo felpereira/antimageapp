@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { BaseSyntheticEvent, SyntheticEvent, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
@@ -37,18 +37,19 @@ export default function SingIn() {
     };
 
     const handleSingInAsync = async (data: AccountData) => {
-        console.log(data);
         try {
-            const result = await signIn('Credentials', {
+            const si = await signIn('credentials', {
+                redirect: Boolean(false),
                 nomeUsuario: data.nomeUsuario,
-                senhaUsuario: data.senhaUsuario,
-                redirect: false
+                senhaUsuario: data.senhaUsuario
             });
+            console.log(si);
+            if (!si?.ok && si?.error === 'CredentialsSignin')
+                console.log('CredentialsSignin');
 
-            console.log(result);
-        } catch (error) {
-            console.log(error);
-            // Lida com erros, se necessário.
+            console.log('certo');
+        } catch (errore: any) {
+            console.log(errore);
         }
     };
 

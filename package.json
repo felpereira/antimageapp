@@ -3,11 +3,12 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
         "build": "next build",
-        "start": "next start",
+        "dev": "next dev",
+        "format": "prettier --write \"src/**/*.{js,ts,tsx}\" && sort-package-json",
         "lint": "next lint",
-        "migrate": "npx prisma migrate dev"
+        "migrate": "npx prisma migrate dev",
+        "start": "next start"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.3.4",
@@ -32,6 +33,7 @@
         "eslint-config-next": "14.0.4",
         "prettier": "3.2.4",
         "prisma": "^5.8.1",
+        "sort-package-json": "^2.7.0",
         "typescript": "^5"
     }
 }
