@@ -31,8 +31,7 @@ export async function PUT(request: Request, response: NextApiResponse) {
     const usuarioExists = await prisma.user.findUnique({
         where: {
             username: nomeUsuario
-        },
-        select: { username: true }
+        }
     });
 
     if (usuarioExists) {
@@ -56,35 +55,35 @@ export async function PUT(request: Request, response: NextApiResponse) {
     return new Response(JSON.stringify({ usuarioId: userId }));
 }
 
-export async function POST(request: Request, response: NextApiResponse) {
-    try {
-        const { nomeUsuario, senhaUsuario } = await request.json();
+// export async function POST(request: Request, response: NextApiResponse) {
+//     try {
+//         const { nomeUsuario, senhaUsuario } = await request.json();
 
-        const senhaUsuarioBanco = await prisma.user.findFirst({
-            select: { password: true },
-            where: { username: nomeUsuario }
-        });
+//         const senhaUsuarioBanco = await prisma.user.findFirst({
+//             select: { password: true },
+//             where: { username: nomeUsuario }
+//         });
 
-        if (!senhaUsuarioBanco) {
-            return RetornarError('nomeUsuario', 'Usuário não encontrado');
-        }
+//         if (!senhaUsuarioBanco) {
+//             return RetornarError('nomeUsuario', 'Usuário não encontrado');
+//         }
 
-        // const passwordMatches = await bcrypt.compare(
-        //     senhaUsuario,
-        //     senhaUsuarioBanco
-        // );
+//         const passwordMatches = await bcrypt.compare(
+//             senhaUsuario,
+//             senhaUsuarioBanco
+//         );
 
-        if (passwordMatches) {
-            return new Response();
-        } else {
-            return RetornarError('senhaUsuario', 'A senha não confere');
-        }
-    } catch (error) {
-        return new Response(JSON.stringify('Erro generalizado'), {
-            status: 400
-        });
-    }
-}
+//         if (passwordMatches) {
+//             return new Response();
+//         } else {
+//             return RetornarError('senhaUsuario', 'A senha não confere');
+//         }
+//     } catch (error) {
+//         return new Response(JSON.stringify('Erro generalizado'), {
+//             status: 400
+//         });
+//     }
+// }
 
 const RetornarError = (campo: string, message: string) =>
     new Response(

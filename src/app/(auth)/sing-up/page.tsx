@@ -3,7 +3,7 @@
 import {
     AlertCardPropsContext,
     AlertContext
-} from '@/contexts/AlertProviderContext';
+} from '@/app/providers/AlertProviderContext';
 import { api } from '@/lib/request/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';

@@ -2,7 +2,7 @@
 
 import React, { ReactNode, createContext, useMemo, useState } from 'react';
 
-import { AlertCard } from '../../../ancient-ui/src/components/AlertCard';
+import { AlertCard } from '../../../../ancient-ui/src/components/AlertCard';
 
 export interface AlertCardPropsContext {
     message: string;

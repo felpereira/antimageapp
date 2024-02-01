@@ -26,22 +26,16 @@ export const authOptions: NextAuthOptions = {
                 senhaUsuario: { label: 'senhaUsuario', type: 'password' }
             },
             async authorize(credentials, req) {
-                const { nomeUsuario, senhaUsuario } = credentials;
+                if (!credentials?.senhaUsuario) return null;
 
-                console.log('T');
-                console.log(credentials);
-                console.log(req);
-
-                const usuario: UsuarioClass = {
-                    user: senhaUsuario,
-                    pass: senhaUsuario
+                const user: UsuarioClass = {
+                    id: '1',
+                    user: credentials.nomeUsuario,
+                    pass: credentials.senhaUsuario
                 };
+                const usuariosService = new UsuariosService();
 
-                const usuarioService = new UsuariosService();
-
-                usuarioService.getAuthUserByUser(usuario);
-                return null;
-                // ou return user
+                return await usuariosService.getAuthUserByUser(user);
             }
         })
     ]
