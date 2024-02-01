@@ -69,10 +69,10 @@ export async function POST(request: Request, response: NextApiResponse) {
             return RetornarError('nomeUsuario', 'Usuário não encontrado');
         }
 
-        const passwordMatches = await bcrypt.compare(
-            senhaUsuario,
-            senhaUsuarioBanco
-        );
+        // const passwordMatches = await bcrypt.compare(
+        //     senhaUsuario,
+        //     senhaUsuarioBanco
+        // );
 
         if (passwordMatches) {
             return new Response();

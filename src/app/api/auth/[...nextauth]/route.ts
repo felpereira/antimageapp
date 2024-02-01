@@ -1,6 +1,11 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
+import {
+    UsuarioClass,
+    UsuariosService
+} from '../../../../../services/usuarios.service';
+
 export const authOptions: NextAuthOptions = {
     secret: 'mQ46qpFwfE1BHuqMC+qlm19qBAD9fVPgh28werwe3ASFlAfnKjM=',
     pages: {
@@ -21,9 +26,20 @@ export const authOptions: NextAuthOptions = {
                 senhaUsuario: { label: 'senhaUsuario', type: 'password' }
             },
             async authorize(credentials, req) {
+                const { nomeUsuario, senhaUsuario } = credentials;
+
                 console.log('T');
                 console.log(credentials);
                 console.log(req);
+
+                const usuario: UsuarioClass = {
+                    user: senhaUsuario,
+                    pass: senhaUsuario
+                };
+
+                const usuarioService = new UsuariosService();
+
+                usuarioService.getAuthUserByUser(usuario);
                 return null;
                 // ou return user
             }
