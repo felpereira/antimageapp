@@ -12,9 +12,9 @@ import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
-import { Button } from '../../../../ancient-ui/src/components/Button';
-import { Input } from '../../../../ancient-ui/src/components/Input';
-import { Text } from '../../../../ancient-ui/src/components/Text';
+import { Button } from '../../../../../ancient-ui/src/components/Button';
+import { Input } from '../../../../../ancient-ui/src/components/Input';
+import { Text } from '../../../../../ancient-ui/src/components/Text';
 import styles from './page.module.css';
 
 const CreateAccountDataSchema = zod

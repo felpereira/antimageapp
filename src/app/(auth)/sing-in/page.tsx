@@ -1,16 +1,17 @@
 'use client';
 
-import { api } from '@/lib/request/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { BaseSyntheticEvent, SyntheticEvent, useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
-import { Button } from '../../../../ancient-ui/src/components/Button';
-import { CheckBox } from '../../../../ancient-ui/src/components/CheckBox';
-import { Input } from '../../../../ancient-ui/src/components/Input';
-import { Text } from '../../../../ancient-ui/src/components/Text';
+import { Button } from '../../../../../ancient-ui/src/components/Button';
+import { CheckBox } from '../../../../../ancient-ui/src/components/CheckBox';
+import { Input } from '../../../../../ancient-ui/src/components/Input';
+import { Text } from '../../../../../ancient-ui/src/components/Text';
 import styles from './page.module.css';
 
 const AccountDataSchema = zod.object({
@@ -36,20 +37,19 @@ export default function SingIn() {
     };
 
     const handleSingInAsync = async (data: AccountData) => {
+        console.log(data);
         try {
-            await api.post(
-                '/users',
-                {
-                    nomeUsuario: data.nomeUsuario,
-                    senhaUsuario: data.senhaUsuario
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-        } catch (error) {}
+            const result = await signIn('Credentials', {
+                nomeUsuario: data.nomeUsuario,
+                senhaUsuario: data.senhaUsuario,
+                redirect: false
+            });
+
+            console.log(result);
+        } catch (error) {
+            console.log(error);
+            // Lida com erros, se necessário.
+        }
     };
 
     return (
@@ -101,7 +101,10 @@ export default function SingIn() {
                     </Link>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <Button label="Entrar" />
+                    <Button
+                        label="Entrar"
+                        type={'submit'}
+                    />
                 </div>
                 <div className={styles.criarConta}>
                     <Link
