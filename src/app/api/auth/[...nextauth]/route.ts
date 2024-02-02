@@ -38,17 +38,17 @@ export const authOptions: NextAuthOptions = {
                 return await usuariosService.getAuthUserByUser(user);
             }
         })
-    ]
-    // callbacks: {
-    //     async jwt({ token, user }) {
-    //         user && (token.user = user);
-    //         return token;
-    //     },
-    //     async session({ session, token }) {
-    //         session = token.user as any;
-    //         return session;
-    //     }
-    // }
+    ],
+    callbacks: {
+        async jwt({ token, user }) {
+            user && (token.user = user);
+            return token;
+        },
+        async session({ session, token }) {
+            session = token.user as any;
+            return session;
+        }
+    }
 };
 
 const handler = NextAuth(authOptions);

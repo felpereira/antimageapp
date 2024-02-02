@@ -1,8 +1,8 @@
 import { aileronFonts } from '@/lib/theme/font';
 import type { Metadata } from 'next';
 
-import { AlertProvider } from '../contexts/AlertProviderContext';
 import './globals.css';
+import { AlertProvider } from './providers/AlertProviderContext';
 import NextAuthSessionProvider from './providers/sessionProvider';
 
 export const metadata: Metadata = {
