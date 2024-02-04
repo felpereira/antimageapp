@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from 'next-auth';
+import NextAuth, { NextAuthOptions, Session } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import {
@@ -26,6 +26,7 @@ export const authOptions: NextAuthOptions = {
                 senhaUsuario: { label: 'senhaUsuario', type: 'password' }
             },
             async authorize(credentials, req) {
+                console.log('authorize');
                 if (!credentials?.senhaUsuario) return null;
 
                 const user: UsuarioClass = {
@@ -41,12 +42,18 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({ token, user }) {
+            console.log('jwt');
             user && (token.user = user);
             return token;
         },
         async session({ session, token }) {
-            session = token.user as any;
-            return session;
+            console.log('session');
+            return token.user as Session;
+        },
+        async redirect({ url, baseUrl }) {
+            console.log('baseUrl', baseUrl);
+            console.log('url', url);
+            return baseUrl;
         }
     }
 };

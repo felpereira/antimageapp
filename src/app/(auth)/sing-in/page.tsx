@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -38,11 +38,10 @@ export default function SingIn() {
     const handleSingInAsync = async (data: AccountData) => {
         try {
             const si = await signIn('credentials', {
-                redirect: Boolean(false),
                 nomeUsuario: data.nomeUsuario,
                 senhaUsuario: data.senhaUsuario
             });
-            console.log(si);
+
             if (!si?.ok && si?.error === 'CredentialsSignin')
                 console.log('CredentialsSignin');
 
@@ -54,6 +53,7 @@ export default function SingIn() {
 
     return (
         <>
+            {session ? 'logado' : 'deslogado'}
             <div className={styles.title}>
                 <Text
                     label={'Login'}
@@ -113,6 +113,10 @@ export default function SingIn() {
                     >
                         Não tem uma conta? Registre-se.
                     </Link>
+                    <Button
+                        label="Sair"
+                        onClick={() => signOut()}
+                    ></Button>
                 </div>
             </form>
         </>

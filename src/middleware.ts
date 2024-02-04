@@ -1,21 +1,29 @@
-import {
-    NextAuthMiddlewareOptions,
-    NextRequestWithAuth,
-    withAuth
-} from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
 
-const middleware = (request: NextRequestWithAuth) => {
-    console.log('[MIDDLEWARE_NEXTAUTH_TOKEN]: ', request.nextauth.token);
+const rotasPublicas = [
+    '/',
+    'forgot-password',
+    'sing-in',
+    'sing-up',
+    '/logotipo.svg'
+];
 
-    // const isPrivateRoutes = request.nextUrl.pathname.startsWith('/private');
-    // const isAdminUser = request.nextauth.token?.role === 'admin';
+//todo verificar rotas autorizadas do lado da api, verificar se o token é valido
 
-    // if (isPrivateRoutes && !isAdminUser) {
-    //     return NextResponse.rewrite(new URL('/denied', request.url));
-    // }
-};
-
-const callbackOptions: NextAuthMiddlewareOptions = {};
-
-export default withAuth(middleware, callbackOptions);
+export default withAuth(
+    async function middleware(req: NextRequestWithAuth) {
+        const token = await getToken({ req });
+        console.log(req.nextUrl.pathname, token);
+    },
+    {
+        pages: {
+            signIn: '/sing-in'
+        },
+        callbacks: {
+            authorized: ({ req, token }) => {
+                return rotasPublicas.includes(req.nextUrl.pathname);
+            }
+        }
+    }
+);
