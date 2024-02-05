@@ -3,6 +3,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { RedirectType, redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
@@ -22,6 +24,7 @@ const AccountDataSchema = zod.object({
 type AccountData = zod.infer<typeof AccountDataSchema>;
 
 export default function SingIn() {
+    const { push } = useRouter();
     const [lembrar, setLembrar] = useState(false);
     const {
         register,
@@ -39,13 +42,14 @@ export default function SingIn() {
         try {
             const si = await signIn('credentials', {
                 nomeUsuario: data.nomeUsuario,
-                senhaUsuario: data.senhaUsuario
+                senhaUsuario: data.senhaUsuario,
+                redirect: false
             });
-
-            if (!si?.ok && si?.error === 'CredentialsSignin')
+            if (!si?.ok && si?.error === 'CredentialsSignin') {
                 console.log('CredentialsSignin');
+            }
 
-            console.log('certo');
+            push(`/${data.nomeUsuario}`);
         } catch (errore: any) {
             console.log(errore);
         }
@@ -53,7 +57,6 @@ export default function SingIn() {
 
     return (
         <>
-            {session ? 'logado' : 'deslogado'}
             <div className={styles.title}>
                 <Text
                     label={'Login'}

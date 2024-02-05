@@ -1,8 +1,13 @@
+'use client';
+
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import styles from './page.module.css';
 
 export default function Home() {
+    const { data: session } = useSession();
+    const usuarioLogado = session?.user;
     return (
         <main className={styles.main}>
             <Link
@@ -25,6 +30,15 @@ export default function Home() {
             >
                 Esqueceu a senha
             </Link>
+            <br></br>
+            {session && (
+                <Link
+                    href={`/${usuarioLogado?.toString()}`}
+                    className={styles.link}
+                >
+                    Painel
+                </Link>
+            )}
             {/* <Login /> */}
             {/* <CreateAccount /> */}
         </main>

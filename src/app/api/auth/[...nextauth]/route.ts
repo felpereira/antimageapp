@@ -7,7 +7,7 @@ import {
 } from '../../../../../services/usuarios.service';
 
 export const authOptions: NextAuthOptions = {
-    secret: 'mQ46qpFwfE1BHuqMC+qlm19qBAD9fVPgh28werwe3ASFlAfnKjM=',
+    secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: '/sing-in'
         // signOut: '/auth/signout',
@@ -26,34 +26,31 @@ export const authOptions: NextAuthOptions = {
                 senhaUsuario: { label: 'senhaUsuario', type: 'password' }
             },
             async authorize(credentials, req) {
-                console.log('authorize');
-                if (!credentials?.senhaUsuario) return null;
+                try {
+                    if (!credentials?.senhaUsuario) return null;
 
-                const user: UsuarioClass = {
-                    id: '1',
-                    user: credentials.nomeUsuario,
-                    pass: credentials.senhaUsuario
-                };
-                const usuariosService = new UsuariosService();
-
-                return await usuariosService.getAuthUserByUser(user);
+                    const user: UsuarioClass = {
+                        id: '1',
+                        user: credentials.nomeUsuario,
+                        pass: credentials.senhaUsuario
+                    };
+                    const usuariosService = new UsuariosService();
+                    const finalUser =
+                        await usuariosService.getAuthUserByUser(user);
+                    return finalUser;
+                } catch (error) {
+                    return null;
+                }
             }
         })
     ],
     callbacks: {
         async jwt({ token, user }) {
-            console.log('jwt');
             user && (token.user = user);
             return token;
         },
         async session({ session, token }) {
-            console.log('session');
             return token.user as Session;
-        },
-        async redirect({ url, baseUrl }) {
-            console.log('baseUrl', baseUrl);
-            console.log('url', url);
-            return baseUrl;
         }
     }
 };

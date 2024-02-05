@@ -2,7 +2,7 @@
 
 import { signOut, useSession } from 'next-auth/react';
 
-export default function Private() {
+export default function Painel() {
     const { data: session } = useSession();
 
     return (
