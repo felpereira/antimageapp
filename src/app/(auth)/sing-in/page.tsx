@@ -1,25 +1,30 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Button';
-import { CheckBox } from 'C:\\Repositorios\\ancient-ui\\src\\components\\CheckBox';
-import { Input } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Input';
-import { Text } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Text';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { RedirectType, redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
+import { Button } from '../../../../../ancient-ui/src/components/Button';
+import { CheckBox } from '../../../../../ancient-ui/src/components/CheckBox';
+import { Input } from '../../../../../ancient-ui/src/components/Input';
+import { Text } from '../../../../../ancient-ui/src/components/Text';
 import styles from './page.module.css';
 
 const AccountDataSchema = zod.object({
     nomeUsuario: zod.string().min(1, 'Digite seu Usuário'),
-    senhaUsuario: zod.string().min(1, 'Digite sua senha')
+    senhaUsuario: zod.string().min(1, 'Digite sua senha'),
+    chkLembrarConta: zod.boolean()
 });
 
 type AccountData = zod.infer<typeof AccountDataSchema>;
 
 export default function SingIn() {
+    const { push } = useRouter();
     const [lembrar, setLembrar] = useState(false);
     const {
         register,
@@ -30,11 +35,25 @@ export default function SingIn() {
     });
 
     const handleLembrar = () => {
-        console.log(lembrar);
         setLembrar(!lembrar);
     };
 
-    const handleSingIn = (data: AccountData) => {};
+    const handleSingInAsync = async (data: AccountData) => {
+        try {
+            const si = await signIn('credentials', {
+                nomeUsuario: data.nomeUsuario,
+                senhaUsuario: data.senhaUsuario,
+                redirect: false
+            });
+            if (!si?.ok && si?.error === 'CredentialsSignin') {
+                console.log('CredentialsSignin');
+            }
+
+            push(`/${data.nomeUsuario}`);
+        } catch (errore: any) {
+            console.log(errore);
+        }
+    };
 
     return (
         <>
@@ -54,7 +73,7 @@ export default function SingIn() {
 
             <form
                 className={styles.inputContainer}
-                onSubmit={handleSubmit(handleSingIn)}
+                onSubmit={handleSubmit(handleSingInAsync)}
             >
                 <Input
                     label="Login"
@@ -74,6 +93,8 @@ export default function SingIn() {
                         isChecked={lembrar}
                         onClick={handleLembrar}
                         label={'Lembrar'}
+                        {...register('chkLembrarConta')}
+                        fieldError={errors.senhaUsuario}
                     />
                     <Link
                         href="/"
@@ -83,7 +104,10 @@ export default function SingIn() {
                     </Link>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <Button label="Entrar" />
+                    <Button
+                        label="Entrar"
+                        type={'submit'}
+                    />
                 </div>
                 <div className={styles.criarConta}>
                     <Link
@@ -92,6 +116,10 @@ export default function SingIn() {
                     >
                         Não tem uma conta? Registre-se.
                     </Link>
+                    <Button
+                        label="Sair"
+                        onClick={() => signOut()}
+                    ></Button>
                 </div>
             </form>
         </>

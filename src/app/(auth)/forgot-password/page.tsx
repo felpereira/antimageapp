@@ -33,7 +33,7 @@ export default function ForgotPassword() {
     const handleRecoveryAccount = (data: AccountRecoveryData) => {};
 
     const handleCancelar = () => {
-        console.log('teste');
+
         push('/');
     };
 

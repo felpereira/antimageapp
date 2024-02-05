@@ -1,15 +1,20 @@
 'use client';
 
+import {
+    AlertCardPropsContext,
+    AlertContext
+} from '@/app/providers/AlertProviderContext';
 import { api } from '@/lib/request/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Button';
-import { Input } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Input';
-import { Text } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Text';
 import { AxiosError } from 'axios';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
+import { Button } from '../../../../../ancient-ui/src/components/Button';
+import { Input } from '../../../../../ancient-ui/src/components/Input';
+import { Text } from '../../../../../ancient-ui/src/components/Text';
 import styles from './page.module.css';
 
 const CreateAccountDataSchema = zod
@@ -22,17 +27,21 @@ const CreateAccountDataSchema = zod
         senhaUsuario: zod.string().min(1, 'Digite sua senha'),
         senhaConfirmaUsuario: zod.string().min(1, 'Confirme sua senha')
     })
-    .refine(data => data.senhaUsuario === data.senhaConfirmaUsuario, {
-        message: 'As senhas não coincidem.',
-        path: ['senhaConfirmaUsuario'] // path of error
-    });
-
-// refine
+    .refine(
+        (data: { senhaUsuario: string; senhaConfirmaUsuario: string }) =>
+            data.senhaUsuario === data.senhaConfirmaUsuario,
+        {
+            message: 'As senhas não coincidem.',
+            path: ['senhaConfirmaUsuario']
+        }
+    );
 
 type CreateAccountData = zod.infer<typeof CreateAccountDataSchema>;
 
 export default function SingUp() {
     const { push } = useRouter();
+
+    const { handleExibirAlerta } = useContext(AlertContext);
     const {
         register,
         handleSubmit,
@@ -42,16 +51,14 @@ export default function SingUp() {
         resolver: zodResolver(CreateAccountDataSchema)
     });
 
-    const handleCreateAccount = async (data: CreateAccountData) => {
-        console.log(data);
+    const handleCreateAccountAsync = async (data: CreateAccountData) => {
         try {
-            const response = await api.post(
+            await api.put(
                 '/users',
                 {
                     nomeUsuario: data.nomeUsuario,
                     emailUsuario: data.emailUsuario,
-                    senha: data.senhaConfirmaUsuario,
-                    confirmSenha: data.senhaConfirmaUsuario
+                    senha: data.senhaConfirmaUsuario
                 },
                 {
                     headers: {
@@ -60,7 +67,11 @@ export default function SingUp() {
                 }
             );
 
-            console.log(response);
+            const message: AlertCardPropsContext = {
+                message: `Usuario ${data.nomeUsuario} cadastrado com sucesso`
+            };
+
+            handleExibirAlerta(message);
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (error.response?.status == 400) {
@@ -71,12 +82,15 @@ export default function SingUp() {
                 }
             }
 
-            console.error('Erro ao criar conta:', error);
+            const message: AlertCardPropsContext = {
+                message: 'Erro ao criar conta:' + JSON.stringify(error)
+            };
+
+            handleExibirAlerta(message);
         }
     };
 
     const handleCancelar = () => {
-        console.log('teste');
         push('/');
     };
 
@@ -91,7 +105,7 @@ export default function SingUp() {
             </div>
             <form
                 className={styles.inputContainer}
-                onSubmit={handleSubmit(handleCreateAccount)}
+                onSubmit={handleSubmit(handleCreateAccountAsync)}
             >
                 <Input
                     label="Nome de Usuário"
