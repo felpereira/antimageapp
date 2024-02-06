@@ -1,32 +1,40 @@
 .container {
     width: 100vw;
     height: 100vh;
-
     display: flex;
     margin: 0;
 }
 
-.content {
-    width: calc(100vw - 15vw);
-    /* descontar a margin da altura */
-    margin: 5px 10px 5px 10px;
-    height: calc(100vh - 10px);
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 10px;
-    border-color: var(--cor-Silver);
-    padding: 1rem;
-}
-
 .sidebar {
     padding: 1rem;
-    margin: 5px 10px 5px 10px;
+    margin: 5px 5px 5px 10px;
     width: 15vw;
     height: calc(100vh - 10px);
     border-width: 2px;
     border-style: solid;
     border-radius: 10px;
     border-color: var(--cor-Silver);
+    transition: width 1s; /* Adiciona uma transição suave para a mudança de largura */
+}
+
+@media (max-width: 750px) {
+    .sidebar {
+        display: none;
+    }
+
+    .content {
+        width: 100vw !important;
+        margin-left: 0;
+    }
+}
+
+.sidebar.hidden {
+    width: 0;
+    overflow: hidden;
+}
+
+.content-expanded {
+    margin-left: 0;
 }
 
 .sidebar ul {
@@ -50,6 +58,8 @@
     border-radius: 5px; /* Adiciona bordas arredondadas aos links estilo botões */
     color: black; /* Cor do texto */
     background-color: white; /* Cor de fundo */
+    min-width: 75px;
+    font-weight: 800;
 }
 
 /* Estilos para os links (a) quando hover (passar o mouse) */

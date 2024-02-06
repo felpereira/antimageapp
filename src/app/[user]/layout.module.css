@@ -1,7 +1,6 @@
 .container {
     width: 100vw;
     height: 100vh;
-
     display: flex;
     margin: 0;
 }
@@ -9,7 +8,7 @@
 .content {
     width: calc(100vw - 15vw);
     /* descontar a margin da altura */
-    margin: 5px 10px 5px 10px;
+    margin: 5px 10px 5px 5px;
     height: calc(100vh - 10px);
     border-width: 2px;
     border-style: solid;
@@ -18,44 +17,8 @@
     padding: 1rem;
 }
 
-.sidebar {
-    padding: 1rem;
-    margin: 5px 10px 5px 10px;
-    width: 15vw;
-    height: calc(100vh - 10px);
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 10px;
-    border-color: var(--cor-Silver);
-}
-
-.sidebar ul {
-    list-style: none;
-    list-style-type: none; /* Remove os marcadores de lista padrão */
-    padding: 0;
-}
-
-/* Estilos para os itens de lista (li) dentro da barra lateral */
-.sidebar li {
-    margin-bottom: 8px; /* Espaçamento inferior entre os itens de lista */
-}
-
-/* Estilos para os links (a) dentro dos itens de lista (li) */
-.sidebar li a {
-    display: block; /* Faz com que os links ocupem a largura total dos itens de lista */
-    text-decoration: none; /* Remove a decoração padrão de link */
-    padding: 10px; /* Adicione preenchimento aos links para torná-los visualmente botões */
-    text-align: right; /* Alinha os links à direita dentro dos itens de lista */
-    border: 2px solid var(--cor-Silver); /* Adiciona uma borda aos links estilo botões */
-    border-radius: 5px; /* Adiciona bordas arredondadas aos links estilo botões */
-    color: black; /* Cor do texto */
-    background-color: white; /* Cor de fundo */
-}
-
-/* Estilos para os links (a) quando hover (passar o mouse) */
-.sidebar li a:hover {
-    background-color: var(
-        --cor-Silver
-    ); /* Altera a cor de fundo ao passar o mouse */
-    color: white; /* Altera a cor do texto ao passar o mouse */
+@media (max-width: 750px) {
+    .content {
+        width: calc(100vw + 10px);
+    }
 }
