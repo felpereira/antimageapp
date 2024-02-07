@@ -1,15 +1,18 @@
 import { getServerSession } from 'next-auth/next';
-import Image from 'next/image';
 import React from 'react';
 
 import { authOptions } from '../../api/auth/[...nextauth]/route';
 import styled from './SideBar.module.css';
-import SidebarProperties from './sidebarProperties';
+import SidebarProperties, { SideMenuLogo } from './sidebarProperties';
 
-// browser side,
 export default async function SideBar() {
     const session = await getServerSession(authOptions);
-    const nomeUsuario = session?.user;
+
+    const nomeUsuario = session?.user.toString() ?? '';
+
+    if (!session) {
+        return;
+    }
 
     return (
         <div
@@ -17,14 +20,7 @@ export default async function SideBar() {
             id={'sideBar'}
         >
             <div style={{ height: 'min-content', textAlign: 'center' }}>
-                <Image
-                    src="/logotipo.svg"
-                    width={100}
-                    height={100}
-                    alt="Picture of the author"
-                    style={{ paddingBottom: '10px' }}
-                    priority
-                />
+                <SideMenuLogo />
             </div>
             {session ? (
                 <div
@@ -47,13 +43,10 @@ export default async function SideBar() {
                     >{`Usuario: ${nomeUsuario}`}</div>
                     <div
                         style={{ textAlign: 'center' }}
-                    >{`Nome: ${nomeUsuario}`}</div>
-                    <div
-                        style={{ textAlign: 'center' }}
                     >{`Ultimo Login: 05/11`}</div>
                 </div>
             ) : null}
-            <SidebarProperties />
+            <SidebarProperties usuario={nomeUsuario} />
         </div>
     );
 }

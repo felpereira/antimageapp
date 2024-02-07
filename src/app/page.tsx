@@ -1,12 +1,14 @@
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import SideBar from './[user]/components/SideBar';
 import { authOptions } from './api/auth/[...nextauth]/route';
 
 export default async function Home() {
-    const session = await getServerSession(authOptions);
+    const session = await useMemo(
+        async () => await getServerSession(authOptions),
+        []
+    );
     const nomeUsuario = session?.user;
 
     return (
