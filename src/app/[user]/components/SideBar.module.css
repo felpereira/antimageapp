@@ -8,13 +8,14 @@
 .sidebar {
     padding: 1rem;
     margin: 5px 5px 5px 10px;
+    display: block;
     width: 15vw;
     height: calc(100vh - 10px);
     border-width: 2px;
     border-style: solid;
     border-radius: 10px;
     border-color: var(--cor-Silver);
-    transition: width 1s; /* Adiciona uma transição suave para a mudança de largura */
+    transition: width 1s;
 }
 
 @media (max-width: 750px) {
@@ -39,13 +40,13 @@
 
 .sidebar ul {
     list-style: none;
-    list-style-type: none; /* Remove os marcadores de lista padrão */
+    list-style-type: none;
     padding: 0;
 }
 
 /* Estilos para os itens de lista (li) dentro da barra lateral */
 .sidebar li {
-    margin-bottom: 8px; /* Espaçamento inferior entre os itens de lista */
+    margin-bottom: 8px;
 }
 
 /* Estilos para os links (a) dentro dos itens de lista (li) */

@@ -1,6 +1,7 @@
-import { prisma } from '@/lib/database/prisma';
 import bcrypt from 'bcrypt';
 import type { NextApiRequest, NextApiResponse } from 'next';
+
+import { prisma } from '../../../lib/database/prisma';
 
 // In this file, we can define any type of request as follows:
 // export async function GET(Request) {}

@@ -1,11 +1,11 @@
 'use client';
 
-import { api } from '@/lib/request/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Button';
 import { Input } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Input';
 import { Text } from 'C:\\Repositorios\\ancient-ui\\src\\components\\Text';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
@@ -33,7 +33,6 @@ export default function ForgotPassword() {
     const handleRecoveryAccount = (data: AccountRecoveryData) => {};
 
     const handleCancelar = () => {
-
         push('/');
     };
 

@@ -1,33 +1,15 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
 import Image from 'next/image';
-import Link from 'next/link';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
+import { authOptions } from '../../api/auth/[...nextauth]/route';
 import styled from './SideBar.module.css';
-import { generateSideBar } from './sidebarProperties';
+import SidebarProperties from './sidebarProperties';
 
-interface SideBarProps {
-    text?: string;
-    labelAgree?: string;
-    labelRecuse?: string;
-    onClickAgree?: () => void;
-    onClickRecuse?: () => void;
-}
-
-export const SideBar = ({
-    onClickAgree,
-    onClickRecuse,
-    labelRecuse,
-    labelAgree = 'Sim',
-    text = undefined
-}: SideBarProps) => {
-    const { data: session } = useSession();
-    const nomeUsuario = session?.user.toString();
-
-    // todo o que fazer aqui ?
-    if (!nomeUsuario) return;
+// browser side,
+export default async function SideBar() {
+    const session = await getServerSession(authOptions);
+    const nomeUsuario = session?.user;
 
     return (
         <div
@@ -71,20 +53,7 @@ export const SideBar = ({
                     >{`Ultimo Login: 05/11`}</div>
                 </div>
             ) : null}
-            <ul>
-                {generateSideBar(nomeUsuario).map(x => {
-                    return (
-                        <li key={x.name}>
-                            <Link
-                                href={x.redirect}
-                                onClick={x.onClick}
-                            >
-                                {x.name}
-                            </Link>
-                        </li>
-                    );
-                })}
-            </ul>
+            <SidebarProperties />
         </div>
     );
-};
+}

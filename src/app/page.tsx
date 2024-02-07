@@ -1,15 +1,18 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
 import Link from 'next/link';
+import React from 'react';
 
+import SideBar from './[user]/components/SideBar';
+import { authOptions } from './api/auth/[...nextauth]/route';
 import styles from './page.module.css';
 
-export default function Home() {
-    const { data: session } = useSession();
-    const usuarioLogado = session?.user;
+export default async function Home() {
+    const session = await getServerSession(authOptions);
+    const nomeUsuario = session?.user;
+
     return (
         <main className={styles.main}>
+            <SideBar />
             <Link
                 href="/sing-up"
                 className={styles.link}
@@ -33,14 +36,12 @@ export default function Home() {
             <br></br>
             {session && (
                 <Link
-                    href={`/${usuarioLogado?.toString()}`}
+                    href={`/${nomeUsuario?.toString()}`}
                     className={styles.link}
                 >
                     Painel
                 </Link>
             )}
-            {/* <Login /> */}
-            {/* <CreateAccount /> */}
         </main>
     );
 }

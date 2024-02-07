@@ -1,7 +1,6 @@
-import Link from 'next/link';
+import React from 'react';
 
-import { SideBar } from './components/SideBar';
-import { generateSideBar } from './components/sidebarProperties';
+import SideBar from './components/SideBar';
 import styles from './layout.module.css';
 
 export default function RootLayout({
