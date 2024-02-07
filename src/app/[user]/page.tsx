@@ -1,7 +1,6 @@
-import Image from 'next/image';
 import React from 'react';
 
-import { OpenSideMenu } from './inicial';
+import { OpenSideMenu } from './components/SideBarMenuMobile/SideBarMenuMobile';
 
 export default function Painel() {
     return (

@@ -7,7 +7,6 @@
 
 .content {
     width: calc(100vw - 15vw);
-    /* descontar a margin da altura */
     margin: 5px 10px 5px 5px;
     height: calc(100vh - 10px);
     border-width: 2px;
@@ -17,8 +16,12 @@
     padding: 1rem;
 }
 
+@media screen {
+}
+
 @media (max-width: 750px) {
     .content {
         width: calc(100vw + 10px);
+        margin: 5px 10px 5px 5px;
     }
 }

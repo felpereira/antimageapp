@@ -1,23 +1,24 @@
 'use client';
 
+import { TAMANHO_MINIMO_SIDEBAR_LOGO_VISIBEL } from '@/shared/constantes';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import { useWindowSize } from './useSideBar';
+import { useWindowSize } from '../../../../hooks/useWindowSize';
 
-export interface SideBarLink {
+interface SideBarLink {
     redirect: string;
     onClick?: () => void;
     name: string;
 }
 
-export interface PropsSideBarLink {
+interface SideBarMenuItensProps {
     usuario: string;
 }
 
-export const generateSideBar = (user: string): SideBarLink[] => {
+const generateSideBar = (user: string): SideBarLink[] => {
     const sidebarLinks: SideBarLink[] = [
         { redirect: `/${user}`, name: 'Inicio' },
         { redirect: `/`, name: 'Site' },
@@ -27,9 +28,9 @@ export const generateSideBar = (user: string): SideBarLink[] => {
     return sidebarLinks;
 };
 
-export default function SidebarProperties({
+export default function SideBarMenuItens({
     usuario
-}: Readonly<PropsSideBarLink>) {
+}: Readonly<SideBarMenuItensProps>) {
     return (
         <ul>
             {generateSideBar(usuario).map(x => {
@@ -51,9 +52,7 @@ export default function SidebarProperties({
 export function SideMenuLogo() {
     const size = useWindowSize();
 
-    console.log(size.width < 900);
-
-    if (size.width < 900) {
+    if (size.width < TAMANHO_MINIMO_SIDEBAR_LOGO_VISIBEL && size.width != 0) {
         return null;
     }
 

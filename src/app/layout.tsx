@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import React from 'react';
 
+import { AlertProvider } from '../lib/providers/AlertProviderContext';
 import { aileronFonts } from '../lib/theme/font';
 import './globals.css';
-import { AlertProvider } from './providers/AlertProviderContext';
+import { LayoutProvider } from '@/lib/providers/LayoutProvider';
 
 export const metadata: Metadata = {
     title: 'Appli - M',
@@ -21,7 +22,9 @@ export default function RootLayout({
             className={aileronFonts.className}
         >
             <body>
-                <AlertProvider>{children}</AlertProvider>
+                <LayoutProvider>
+                    <AlertProvider>{children}</AlertProvider>
+                </LayoutProvider>
             </body>
         </html>
     );

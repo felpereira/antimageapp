@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SideBar from './components/SideBar';
+import SidebarMain from './components/SideBarMain/SidebarMain';
 import styles from './layout.module.css';
 
 export default function RootLayout({
@@ -10,7 +10,7 @@ export default function RootLayout({
 }>) {
     return (
         <div className={styles.container}>
-            <SideBar />
+            <SidebarMain />
             <div className={styles.content}>{children}</div>
         </div>
     );

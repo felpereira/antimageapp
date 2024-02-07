@@ -1,16 +1,15 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
+import { TAMANHO_MINIMO_SIDEBAR_VISIBEL } from '@/shared/constantes';
 import Image from 'next/image';
-import Link from 'next/link';
 import React from 'react';
 
-import { useWindowSize } from './components/useSideBar';
+import { useWindowSize } from '../../../../hooks/useWindowSize';
 
 export function OpenSideMenu() {
     const size = useWindowSize();
 
-    if (size.width < 900) {
+    if (size.width > TAMANHO_MINIMO_SIDEBAR_VISIBEL || size.width == 0) {
         return null;
     }
 
