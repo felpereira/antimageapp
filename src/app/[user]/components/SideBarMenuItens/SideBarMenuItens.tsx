@@ -1,6 +1,6 @@
 'use client';
 
-import { TAMANHO_MINIMO_SIDEBAR_LOGO_VISIBEL } from '@/shared/constantes';
+import { TAMANHO_MINIMO_SIDEBAR_LOGO_VISIVEL } from '@/shared/constantes';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -52,7 +52,7 @@ export default function SideBarMenuItens({
 export function SideMenuLogo() {
     const size = useWindowSize();
 
-    if (size.width < TAMANHO_MINIMO_SIDEBAR_LOGO_VISIBEL && size.width != 0) {
+    if (size.width < TAMANHO_MINIMO_SIDEBAR_LOGO_VISIVEL && size.width != 0) {
         return null;
     }
 

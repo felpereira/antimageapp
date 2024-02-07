@@ -1,15 +1,20 @@
 'use client';
 
-import { TAMANHO_MINIMO_SIDEBAR_VISIBEL } from '@/shared/constantes';
+import { LayoutContext } from '@/lib/providers/LayoutProvider';
+import { TAMANHO_MINIMO_SIDEBAR_VISIVEL } from '@/shared/constantes';
 import Image from 'next/image';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useWindowSize } from '../../../../hooks/useWindowSize';
 
 export function OpenSideMenu() {
-    const size = useWindowSize();
+    const { openSideMenu, setOpenSideMenu, windowSize } =
+        useContext(LayoutContext);
 
-    if (size.width > TAMANHO_MINIMO_SIDEBAR_VISIBEL || size.width == 0) {
+    if (
+        windowSize.width > TAMANHO_MINIMO_SIDEBAR_VISIVEL ||
+        windowSize.width == 0
+    ) {
         return null;
     }
 
@@ -22,7 +27,7 @@ export function OpenSideMenu() {
                 alt="Picture of the author"
                 style={{ paddingBottom: '10px', width: '2rem', height: 'auto' }}
                 priority
-                onClick={() => console.log('teste')}
+                onClick={() => setOpenSideMenu(!openSideMenu)}
             />
         </div>
     );

@@ -1,10 +1,9 @@
 'use client';
 
 import { LayoutContext } from '@/lib/providers/LayoutProvider';
-import { TAMANHO_MINIMO_SIDEBAR_VISIBEL } from '@/shared/constantes';
+import { TAMANHO_MINIMO_SIDEBAR_VISIVEL } from '@/shared/constantes';
 import React, { useContext } from 'react';
 
-import { useWindowSize } from '../../../../hooks/useWindowSize';
 import { SideBarInforUser } from '../SideBarInforUser/SideBarInfoUser';
 import SidebarProperties, {
     SideMenuLogo
@@ -16,11 +15,11 @@ interface SideBarProps {
 }
 
 export default function SideBar({ nomeUsuario }: Readonly<SideBarProps>) {
-    const { openSideMenu } = useContext(LayoutContext);
-    const size = useWindowSize();
+    const { openSideMenu, windowSize } = useContext(LayoutContext);
 
     const exibirSideMenu =
-        size.width < TAMANHO_MINIMO_SIDEBAR_VISIBEL && size.width != 0;
+        windowSize.width < TAMANHO_MINIMO_SIDEBAR_VISIVEL &&
+        windowSize.width != 0;
 
     let styleSideBar = {};
 
@@ -32,8 +31,7 @@ export default function SideBar({ nomeUsuario }: Readonly<SideBarProps>) {
             padding: exibirSideMenu ? '0px' : '1rem'
         };
     }
-    console.log(openSideMenu);
-    console.log(exibirSideMenu);
+
     if (openSideMenu && exibirSideMenu) {
         styleSideBar = {
             position: 'absolute',
