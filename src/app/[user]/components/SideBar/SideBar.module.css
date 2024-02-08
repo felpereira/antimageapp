@@ -7,11 +7,6 @@
     border-style: solid;
     border-radius: 10px;
     border-color: var(--cor-Silver);
-    -webkit-transition: width 1s ease;
-    -moz-transition: width 1s ease;
-    -ms-transition: width 1s ease;
-    -o-transition: width 1s ease;
-    transition: width 1s ease;
     background-color: var(--gray-50);
 }
 

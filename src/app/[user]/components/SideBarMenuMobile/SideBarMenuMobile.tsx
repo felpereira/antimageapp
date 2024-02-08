@@ -5,8 +5,6 @@ import { TAMANHO_MINIMO_SIDEBAR_VISIVEL } from '@/shared/constantes';
 import Image from 'next/image';
 import React, { useContext } from 'react';
 
-import { useWindowSize } from '../../../../hooks/useWindowSize';
-
 export function OpenSideMenu() {
     const { openSideMenu, setOpenSideMenu, windowSize } =
         useContext(LayoutContext);
@@ -19,7 +17,7 @@ export function OpenSideMenu() {
     }
 
     return (
-        <div style={{ height: 'min-content' }}>
+        <div style={{ height: 'min-content', textAlign: 'right' }}>
             <Image
                 src="/menusButton.svg"
                 width={32}

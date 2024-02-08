@@ -1,16 +1,11 @@
 'use client';
 
-import { LayoutContext } from '@/lib/providers/LayoutProvider';
-import { useContext, useEffect } from 'react';
+import { Janela } from '@/lib/providers/LayoutProvider';
+import { useEffect } from 'react';
 
-export interface Janela {
-    width: number;
-    height: number;
-}
-
-export const useWindowSize = () => {
-    const { setWindowSize } = useContext(LayoutContext);
-
+export const useWindowSize = (
+    setWindowSize: React.Dispatch<React.SetStateAction<Janela>>
+) => {
     useEffect(() => {
         function handleResize() {
             setWindowSize({

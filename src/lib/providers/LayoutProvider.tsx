@@ -3,53 +3,45 @@
 import { useWindowSize } from '@/hooks/useWindowSize';
 import React, { ReactNode, createContext, useMemo, useState } from 'react';
 
-export interface AlertCardPropsContext {
-    message: string;
-}
-
 export interface Janela {
     width: number;
     height: number;
 }
 
-interface LayoutContextProps {
-    openSideMenu: boolean;
+interface LayoutProviderProps {
+    setWindowSize: React.Dispatch<React.SetStateAction<Janela>>;
     setOpenSideMenu: React.Dispatch<React.SetStateAction<boolean>>;
     windowSize: Janela;
-    setWindowSize: React.Dispatch<React.SetStateAction<Janela>>;
+    openSideMenu: boolean;
 }
 
-export const LayoutContext = createContext<LayoutContextProps>({
-    openSideMenu: false,
-    setOpenSideMenu: () => {},
-    setWindowSize: () => {},
-    windowSize: {
-        width: 0,
-        height: 0
-    }
+export const LayoutContext = createContext<LayoutProviderProps>({
+    setWindowSize: (_janela: React.SetStateAction<Janela>) => {},
+    setOpenSideMenu: (_novoValor: React.SetStateAction<boolean>) => {},
+    windowSize: { width: 0, height: 0 },
+    openSideMenu: false
 });
 
 export const LayoutProvider: React.FC<{ children: ReactNode }> = ({
     children
 }) => {
-    useWindowSize();
-
-    const [openSideMenu, setOpenSideMenu] = useState(false);
     const [windowSize, setWindowSize] = useState<Janela>({
-        width: 0,
-        height: 0
+        height: 0,
+        width: 0
     });
+    const [openSideMenu, setOpenSideMenu] = useState<boolean>(false);
 
     const context = useMemo(
         () => ({
-            openSideMenu,
-            setOpenSideMenu,
             windowSize,
-            setWindowSize
+            setWindowSize,
+            openSideMenu,
+            setOpenSideMenu
         }),
         [openSideMenu, windowSize]
     );
 
+    useWindowSize(setWindowSize);
     return (
         <LayoutContext.Provider value={context}>
             {children}

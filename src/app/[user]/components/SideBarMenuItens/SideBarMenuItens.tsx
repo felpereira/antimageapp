@@ -1,12 +1,11 @@
 'use client';
 
+// import { LayoutContext } from '@/lib/providers/LayoutProvider';
 import { TAMANHO_MINIMO_SIDEBAR_LOGO_VISIVEL } from '@/shared/constantes';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-
-import { useWindowSize } from '../../../../hooks/useWindowSize';
+import React, { useContext } from 'react';
 
 interface SideBarLink {
     redirect: string;
@@ -50,11 +49,14 @@ export default function SideBarMenuItens({
 }
 
 export function SideMenuLogo() {
-    const size = useWindowSize();
+    // const { windowSize } = useContext(LayoutContext);
 
-    if (size.width < TAMANHO_MINIMO_SIDEBAR_LOGO_VISIVEL && size.width != 0) {
-        return null;
-    }
+    // if (
+    //     windowSize.width < TAMANHO_MINIMO_SIDEBAR_LOGO_VISIVEL &&
+    //     windowSize.width != 0
+    // ) {
+    //     return null;
+    // }
 
     return (
         <div style={{ height: 'min-content', textAlign: 'center' }}>

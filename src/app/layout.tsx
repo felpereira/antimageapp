@@ -1,10 +1,10 @@
+import { LayoutProvider } from '@/lib/providers/LayoutProvider';
 import type { Metadata } from 'next';
 import React from 'react';
 
 import { AlertProvider } from '../lib/providers/AlertProviderContext';
 import { aileronFonts } from '../lib/theme/font';
 import './globals.css';
-import { LayoutProvider } from '@/lib/providers/LayoutProvider';
 
 export const metadata: Metadata = {
     title: 'Appli - M',

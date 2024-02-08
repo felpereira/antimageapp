@@ -2,7 +2,7 @@
 
 import { LayoutContext } from '@/lib/providers/LayoutProvider';
 import { TAMANHO_MINIMO_SIDEBAR_VISIVEL } from '@/shared/constantes';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { SideBarInforUser } from '../SideBarInforUser/SideBarInfoUser';
 import SidebarProperties, {
@@ -25,10 +25,12 @@ export default function SideBar({ nomeUsuario }: Readonly<SideBarProps>) {
 
     if (exibirSideMenu) {
         styleSideBar = {
-            visibility: exibirSideMenu ? 'hidden' : 'visible',
+            position: exibirSideMenu ? 'absolute' : '',
             width: exibirSideMenu ? '0px' : '15vw',
             margin: exibirSideMenu ? '0px' : ' 5px 5px 5px 10px',
-            padding: exibirSideMenu ? '0px' : '1rem'
+            padding: exibirSideMenu ? '0px' : '1rem',
+            visibility: exibirSideMenu ? 'hidden' : 'visible',
+            transition: 'width 1s ease'
         };
     }
 
@@ -36,7 +38,8 @@ export default function SideBar({ nomeUsuario }: Readonly<SideBarProps>) {
         styleSideBar = {
             position: 'absolute',
             width: '50vw',
-            margin: ' 5px 5px 5px 5px'
+            margin: ' 5px 5px 5px 5px',
+            transition: 'width 1s ease'
         };
     }
 
