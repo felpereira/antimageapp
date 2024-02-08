@@ -41,6 +41,7 @@ export const LayoutProvider: React.FC<{ children: ReactNode }> = ({
         [openSideMenu, windowSize]
     );
 
+    // Preciso enviar a função por que o Provider só funciona dentro do tag LayoutContext
     useWindowSize(setWindowSize);
     return (
         <LayoutContext.Provider value={context}>

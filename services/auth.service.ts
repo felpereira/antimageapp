@@ -1,6 +1,5 @@
 import * as jose from 'jose';
 import { cookies } from 'next/headers';
-import { useState } from 'react';
 
 export const sessionValid = async () => {
     const sessionCookie = cookies().get('session');

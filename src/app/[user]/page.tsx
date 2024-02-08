@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { OpenSideMenu } from './components/SideBarMenuMobile/SideBarMenuMobile';
 import style from './page.module.css';
@@ -8,6 +8,12 @@ import style from './page.module.css';
 // tirar
 
 export default function Painel() {
+    const [mesAtual, setMesAtual] = useState(0);
+
+    const botaoCliqueCalendario = (dia: number) => {
+        console.log(dia);
+    };
+
     const mesesDoAno = [
         'Janeiro',
         'Fevereiro',
@@ -36,62 +42,143 @@ export default function Painel() {
         30, // Novembro
         31 // Dezembro
     ];
+
+    const JANEIRO = 0;
+    const DEZEMBRO = 11;
+    const disabledAnterior = mesAtual == JANEIRO;
+    const disabledProximo = mesAtual == DEZEMBRO;
+
     return (
-        <div className="w-full max-w-screen-xl h-screen flex flex-col justify-center items-center">
+        <div>
             <OpenSideMenu />
             <h1>Agendar</h1>
 
-            {mesesDoAno.map((x, i) => {
-                return (
-                    <>
-                        <h2 key={x}>{`${x}`}</h2>
+            <h2>{`${mesesDoAno[mesAtual]}`}</h2>
+            <button
+                onClick={() => setMesAtual(state => state - 1)}
+                disabled={disabledAnterior}
+            >
+                Anterior
+            </button>
+            <p>{mesAtual + 1}</p>
+            <button
+                onClick={() => setMesAtual(state => state + 1)}
+                disabled={disabledProximo}
+            >
+                Proximo
+            </button>
+            <div
+                style={{
+                    width: '35rem'
+                }}
+            >
+                <div style={{ display: 'inline-flex' }}>
+                    <div
+                        style={{
+                            width: '4rem',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            textAlign: 'center'
+                        }}
+                    >
+                        Segunda
+                    </div>
+                    <div
+                        style={{
+                            width: '4rem',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            textAlign: 'center'
+                        }}
+                    >
+                        Terça
+                    </div>
+                    <div
+                        style={{
+                            width: '4rem',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            textAlign: 'center'
+                        }}
+                    >
+                        Quarta
+                    </div>
+                    <div
+                        style={{
+                            width: '4rem',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            textAlign: 'center'
+                        }}
+                    >
+                        Quinta
+                    </div>
+                    <div
+                        style={{
+                            width: '4rem',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            textAlign: 'center'
+                        }}
+                    >
+                        Sexta
+                    </div>
+                    <div
+                        style={{
+                            width: '4rem',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            textAlign: 'center'
+                        }}
+                    >
+                        Sábado
+                    </div>
+                    <div
+                        style={{
+                            width: '4rem',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            textAlign: 'center'
+                        }}
+                    >
+                        Domingo
+                    </div>
+                </div>
+
+                {Array.from({ length: diasDoMes[mesAtual] }, (_, index) => {
+                    return (
                         <div
                             style={{
-                                width: '35rem'
+                                display: 'inline-flex'
                             }}
+                            key={index}
                         >
-                            {Array.from(
-                                { length: diasDoMes[i] },
-                                (_, index) => {
-                                    const i = index + 1;
-                                    const quadrado: number = i ** 2;
-
-                                    return (
-                                        <div
-                                            style={{
-                                                display: 'inline-flex'
-                                            }}
-                                            key={index}
-                                        >
-                                            <div
-                                                className={
-                                                    style.celulaCalendario
-                                                }
-                                                key={index}
-                                                style={{
-                                                    width: '4rem',
-                                                    height: '4rem',
-                                                    border: '2px solid #b1a7a6',
-                                                    borderRadius: '5px',
-                                                    margin: '5px',
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center',
-                                                    fontSize: '2rem',
-                                                    fontWeight: 600,
-                                                    background: '#c9caca'
-                                                }}
-                                            >
-                                                {`${index + 1}`}
-                                            </div>
-                                        </div>
-                                    );
+                            <button
+                                className={style.celulaCalendario}
+                                style={{
+                                    width: '4rem',
+                                    height: '4rem',
+                                    border: '2px solid #b1a7a6',
+                                    borderRadius: '5px',
+                                    margin: '5px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    fontSize: '2rem',
+                                    fontWeight: 600,
+                                    background: '#c9caca',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={event =>
+                                    botaoCliqueCalendario(index + 1)
                                 }
-                            )}
+                            >
+                                {`${index + 1}`}
+                            </button>
                         </div>
-                    </>
-                );
-            })}
+                    );
+                })}
+            </div>
         </div>
     );
 }
