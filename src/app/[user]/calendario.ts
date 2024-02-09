@@ -1,0 +1,79 @@
+export enum DiaDaSemana {
+    Segunda = 0,
+    Terça = 1,
+    Quarta = 2,
+    Quinta = 3,
+    Sexta = 4,
+    Sabado = 5,
+    Domingo = 6
+}
+
+export enum MesesDoAno {
+    Janeiro,
+    Fevereiro,
+    Março,
+    Abril,
+    Maio,
+    Junho,
+    Julho,
+    Agosto,
+    Setembro,
+    Outubro,
+    Novembro,
+    Dezembro
+}
+
+export const obterDescricaoDiaDaSemana = (
+    diaDaSemana: DiaDaSemana,
+    completo: boolean = false
+): string => {
+    switch (diaDaSemana) {
+        case DiaDaSemana.Domingo:
+            return 'Domingo';
+        case DiaDaSemana.Segunda:
+            return completo ? 'Segunda-feira' : 'Segunda';
+        case DiaDaSemana.Terça:
+            return completo ? 'Terça-feira' : 'Terça';
+        case DiaDaSemana.Quarta:
+            return completo ? 'Quarta-feira' : 'Quarta';
+        case DiaDaSemana.Quinta:
+            return completo ? 'Quinta-feira' : 'Quinta';
+        case DiaDaSemana.Sexta:
+            return completo ? 'Sexta-feira' : 'Sexta';
+        case DiaDaSemana.Sabado:
+            return 'Sábado';
+        default:
+            return '';
+    }
+};
+
+export const obterDescricaoMes = (mes: MesesDoAno): string => {
+    switch (mes) {
+        case MesesDoAno.Janeiro:
+            return 'Janeiro';
+        case MesesDoAno.Fevereiro:
+            return 'Fevereiro';
+        case MesesDoAno.Março:
+            return 'Março';
+        case MesesDoAno.Abril:
+            return 'Abril';
+        case MesesDoAno.Maio:
+            return 'Maio';
+        case MesesDoAno.Junho:
+            return 'Junho';
+        case MesesDoAno.Julho:
+            return 'Julho';
+        case MesesDoAno.Agosto:
+            return 'Agosto';
+        case MesesDoAno.Setembro:
+            return 'Setembro';
+        case MesesDoAno.Outubro:
+            return 'Outubro';
+        case MesesDoAno.Novembro:
+            return 'Novembro';
+        case MesesDoAno.Dezembro:
+            return 'Dezembro';
+        default:
+            return '';
+    }
+};
