@@ -1,13 +1,28 @@
 .sidebar {
-    padding: 1rem;
-    margin: 5px 5px 5px 10px;
     width: 15vw;
-    height: calc(100vh - 10px);
-    border-width: 2px;
-    border-style: solid;
+    min-width: 150px;
+    min-height: calc(100vh - 52px);
+    height: fit-content;
+    padding: 10px;
+    margin: 10px 10px 10px 10px;
+    border: 1px solid var(--cor-Silver);
     border-radius: 10px;
-    border-color: var(--cor-Silver);
     background-color: var(--gray-50);
+    overflow: hidden;
+}
+
+.exibirSidebarProCima {
+    margin-left: 10px !important;
+    transition: margin-left 0.7s linear;
+}
+
+@media screen and (max-width: 600px) {
+    .sidebar {
+        position: absolute;
+        margin-left: -55vh;
+        width: 50vw;
+        transition: margin-left 0.7s linear;
+    }
 }
 
 .sidebar ul {

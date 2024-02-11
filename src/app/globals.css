@@ -29,6 +29,37 @@
     margin: 0;
 }
 
+html {
+    font-size: larger;
+}
+
+/* @media screen and (min-width: 280px) and (max-width: 380px) {
+    * {
+        font-size: 6.5px;
+        background-color: red !important;
+    }
+}
+
+@media screen and (min-width: 381px) and (max-width: 480px) {
+    * {
+        font-size: 9.5px;
+        background-color: blue !important;
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 580px) {
+    * {
+        font-size: 12px;
+        background-color: darkblue !important;
+    }
+}
+@media screen and (min-width: 601px) and (max-width: 780px) {
+    * {
+        font-size: 10px;
+        background-color: darkblue !important;
+    }
+} */
+
 body {
     background-color: var(--gray-50);
     color: var(--gray-900);

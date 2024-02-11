@@ -1,24 +1,21 @@
 .container {
-    width: 100vw;
-    min-height: 100vh;
+    min-height: calc(100vh - 2rem);
+    min-width: 248px;
     display: flex;
-    margin: 0;
+    overflow: hidden;
 }
 
 .content {
-    width: calc(100vw - 15vw);
-    margin: 5px 10px 5px 5px;
-    min-height: calc(100vh - 10px);
-    border-width: 2px;
-    border-style: solid;
+    flex-grow: 1;
+    padding: 10px;
+    margin: 10px 10px 10px 10px;
+    border: 1px solid var(--cor-Silver);
     border-radius: 10px;
-    border-color: var(--cor-Silver);
-    padding: 1rem;
+    overflow: hidden;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 600px) {
     .content {
-        width: calc(100vw + 10px);
-        margin: 5px 10px 5px 5px;
+        margin: 10px 10px 10px 10px;
     }
 }
