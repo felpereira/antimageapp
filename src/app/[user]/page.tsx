@@ -16,14 +16,18 @@ export default function Painel() {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [visibility, setVisibility] = useState(false);
 
-    let timeoutId: NodeJS.Timeout | null = null;
+    const handleMouseMove = throttle((event: React.MouseEvent) => {
+        console.log(1);
+        if (visibility) {
+            return;
+        }
 
-    const handleMouseMove = debounce((event: React.MouseEvent) => {
-        setPosition({ x: event.clientX, y: event.clientY });
+        setPosition({ x: event.clientX - 83, y: event.clientY - 78 });
         setVisibility(true);
-    }, 50);
+    }, 1000);
 
     const handleMouseLeave = () => {
+        console.log('saiu');
         setVisibility(false);
     };
 
@@ -69,6 +73,7 @@ export default function Painel() {
     const ehDezembro = mesAtual == DEZEMBRO;
 
     const diasMesAnterior = new Date(ano, mesAtual, 1).getDay() - 1;
+    let diasIniciais = diasMesAnterior - 1;
     return (
         <div>
             <OpenSideMenu />
@@ -107,6 +112,7 @@ export default function Painel() {
                 })}
 
                 {Array.from({ length: diasDoMes[mesAtual] }, (_, index) => {
+                    console.log((index + 1) % 7 === 0);
                     return (
                         <div
                             style={{
@@ -120,12 +126,26 @@ export default function Painel() {
                                 onClick={event =>
                                     botaoCliqueCalendario(index + 1)
                                 }
-                                onMouseMove={handleMouseMove}
+                                // onMouseMove={handleMouseMove}
+                                onMouseEnter={handleMouseMove}
                                 onMouseLeave={handleMouseLeave}
                                 style={{ pointerEvents: 'auto' }}
                             >
                                 {`${index + 1}`}
                             </button>
+
+                            {(diasIniciais + index + 1) % 7 === 0 ? (
+                                <button
+                                    className={style.celulaCalendario}
+                                    style={{ pointerEvents: 'auto' }}
+                                >
+                                    {`SEMANA`}
+                                </button>
+                            ) : null}
+
+                            {(diasIniciais + index + 1) % 7 === 0
+                                ? (diasIniciais = 0)
+                                : ''}
                         </div>
                     );
                 })}
@@ -165,22 +185,24 @@ export default function Painel() {
             <div
                 style={{
                     visibility: visibility ? 'visible' : 'hidden',
-                    height: '5rem',
-                    width: '5rem',
-                    border: '1px solid blue',
+                    height: 'min-content',
+                    width: 'min-content',
+                    fontSize: '12px',
+                    border: '1px solid #c9caca',
+                    borderRadius: '1rem',
                     position: 'absolute',
                     display: 'inline-block',
                     left: `${position.x}px`,
                     top: `${position.y}px`,
                     textAlign: 'justify',
-                    padding: '5px',
+                    padding: '1rem',
                     wordWrap: 'break-word',
-                    background: 'red',
-                    transition: 'all 0.5s linear'
-                    // pointerEvents: 'none'
+                    background: '#b4b4b4',
+                    transition: 'all 0.3s linear',
+                    pointerEvents: 'none'
                 }}
             >
-                3 Agendamentos
+                Dia 12 tem 2 agendamentos
             </div>
         </div>
     );
@@ -199,5 +221,24 @@ function debounce<T extends (...args: any[]) => void>(
     return (...args: Parameters<T>) => {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => fn(...args), delay);
+    };
+}
+
+type CallbackFunction = (...args: any[]) => void;
+
+function throttle(
+    callback: CallbackFunction,
+    delay: number = 1000
+): CallbackFunction {
+    let shouldWait: boolean = false;
+
+    return (...args: any[]): void => {
+        if (shouldWait) return;
+
+        callback(...args);
+        shouldWait = true;
+        setTimeout(() => {
+            shouldWait = false;
+        }, delay);
     };
 }
