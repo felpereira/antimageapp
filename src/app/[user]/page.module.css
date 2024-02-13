@@ -7,7 +7,7 @@
     min-width: 90%;
     min-height: 90%;
     border: 2px solid #b1a7a6;
-    border-radius: 5px;
+    border-radius: 25px;
     margin: 5px;
     display: flex;
     justify-content: center;
@@ -15,6 +15,12 @@
     font-size: 20px;
     font-weight: 600;
     background: #c9caca;
+}
+
+@media screen and (max-width: 700px) {
+    .celulaCalendario {
+        border-radius: 10px;
+    }
 }
 
 .fakeDia {
@@ -44,4 +50,9 @@
     justify-content: center;
     pointer-events: auto;
     aspect-ratio: 1;
+}
+
+.diaCalendarioFake {
+    display: inline-flex;
+    width: 14%;
 }

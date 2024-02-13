@@ -1,5 +1,5 @@
 .container {
-    min-height: calc(100vh - 2rem);
+    min-height: 100vh;
     min-width: 248px;
     display: flex;
     overflow: hidden;
@@ -14,8 +14,9 @@
     overflow: hidden;
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
     .content {
         margin: 10px 10px 10px 10px;
+        padding: 5px;
     }
 }

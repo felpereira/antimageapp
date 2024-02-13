@@ -1,20 +1,24 @@
 'use client';
 
 import { forEachEnum } from '@/lib/utils/utils';
+import { usePathname, useRouter } from 'next/navigation';
+// import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 
 import { Button } from '../../../../ancient-ui/src/components/Button';
 import { DiaDaSemana, obterDescricaoDiaDaSemana } from './calendario';
 import { OpenSideMenu } from './components/SideBarMenuMobile/SideBarMenuMobile';
+import Header from './components/header/header';
 import style from './page.module.css';
-
-// tirar
 
 export default function Painel() {
     const [mesAtual, setMesAtual] = useState(0);
     const [ano, setAno] = useState(2024);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [visibility, setVisibility] = useState(false);
+
+    const { push } = useRouter();
+    const pathname = usePathname();
 
     const handleMouseMove = throttle((event: React.MouseEvent) => {
         console.log(1);
@@ -32,7 +36,13 @@ export default function Painel() {
     };
 
     const botaoCliqueCalendario = (dia: number) => {
-        console.log(dia);
+        const dataEnviar = new Date(ano, mesAtual, dia)
+            .toJSON()
+            .substring(0, 10);
+
+        console.log(pathname);
+
+        push(`${pathname}/cadastraragenda?data=${dataEnviar}`);
     };
 
     const mesesDoAno = [
@@ -73,15 +83,56 @@ export default function Painel() {
     const ehDezembro = mesAtual == DEZEMBRO;
 
     const diasMesAnterior = new Date(ano, mesAtual, 1).getDay() - 1;
-    let diasIniciais = diasMesAnterior - 1;
     return (
         <div>
-            <OpenSideMenu />
-            <h1>Agendar</h1>
-
-            <h1>{`${mesesDoAno[mesAtual]} de ${ano}`}</h1>
+            <Header titulo={'Calendário'} />
 
             <div className={style.calendario}>
+                <div
+                    style={{
+                        display: 'flex',
+                        paddingTop: '10px',
+                        minWidth: '100%',
+                        justifyContent: 'space-between',
+                        paddingBottom: '10px'
+                    }}
+                >
+                    <Button
+                        onClick={() => {
+                            if (ehJaneiro) {
+                                setAno(state => state - 1);
+                                setMesAtual(11);
+                            } else {
+                                setMesAtual(state => state - 1);
+                            }
+                        }}
+                        label={'Anterior'}
+                        style={{ fontSize: 'min(3.5vw, 1rem)' }}
+                    />
+                    <div
+                        style={{
+                            flex: 1,
+                            whiteSpace: 'nowrap',
+                            fontSize: 'min(3.5vw, 20px)',
+                            alignSelf: 'center',
+                            fontWeight: '700',
+                            textAlign: 'center'
+                        }}
+                    >{`${mesesDoAno[mesAtual]} de ${ano}`}</div>
+
+                    <Button
+                        onClick={() => {
+                            if (ehDezembro) {
+                                setAno(state => state + 1);
+                                setMesAtual(0);
+                            } else {
+                                setMesAtual(state => state + 1);
+                            }
+                        }}
+                        label={'Próximo'}
+                        style={{ fontSize: 'min(3.5vw, 1rem)' }}
+                    />
+                </div>
                 {forEachEnum(DiaDaSemana, ({ value, label }) => (
                     <div
                         className={style.diaSemanacalendario}
@@ -90,11 +141,11 @@ export default function Painel() {
                         {obterDescricaoDiaDaSemana(value)}
                     </div>
                 ))}
-
+                {/* dia fake */}
                 {Array.from({ length: diasMesAnterior }, (_, chavinha) => {
                     return (
                         <div
-                            className={style.diaCalendario}
+                            className={style.diaCalendarioFake}
                             key={Math.floor(Math.random() * 99999999999)}
                         >
                             <div className={style.fakeDia}></div>
@@ -123,37 +174,7 @@ export default function Painel() {
                     );
                 })}
             </div>
-            <div
-                style={{
-                    display: 'inline-flex',
-                    paddingTop: '10px',
-                    justifyContent: 'flex-end',
-                    paddingRight: '40px'
-                }}
-            >
-                <Button
-                    onClick={() => {
-                        if (ehJaneiro) {
-                            setAno(state => state - 1);
-                            setMesAtual(11);
-                        } else {
-                            setMesAtual(state => state - 1);
-                        }
-                    }}
-                    label={'Anterior'}
-                />
-                <Button
-                    onClick={() => {
-                        if (ehDezembro) {
-                            setAno(state => state + 1);
-                            setMesAtual(0);
-                        } else {
-                            setMesAtual(state => state + 1);
-                        }
-                    }}
-                    label={'Próximo'}
-                />
-            </div>
+
             <div
                 style={{
                     visibility: visibility ? 'visible' : 'hidden',
