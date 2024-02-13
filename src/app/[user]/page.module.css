@@ -1,20 +1,26 @@
+.calendario {
+    padding-top: 30px;
+    max-width: 35rem;
+}
+
 .celulaCalendario {
-    width: 4rem;
-    height: 4rem;
+    min-width: 90%;
+    min-height: 90%;
     border: 2px solid #b1a7a6;
     border-radius: 5px;
     margin: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 20px;
     font-weight: 600;
     background: #c9caca;
 }
 
 .fakeDia {
-    width: 4rem;
-    height: 1rem;
+    min-width: 90%;
+    min-height: 90%;
+
     margin: 5px;
     display: flex;
     justify-content: center;
@@ -27,12 +33,15 @@
 }
 
 .diaSemanacalendario {
-    width: calc(4rem + 10px);
+    display: inline-flex;
+    width: 14%;
     justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 1rem;
-    height: 1.5rem;
-    padding: 1px;
-    font-weight: 700;
+}
+
+.diaCalendario {
+    display: inline-flex;
+    width: 14%;
+    justify-content: center;
+    pointer-events: auto;
+    aspect-ratio: 1;
 }

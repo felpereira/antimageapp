@@ -79,31 +79,22 @@ export default function Painel() {
             <OpenSideMenu />
             <h1>Agendar</h1>
 
-            <h2>{`${mesesDoAno[mesAtual]} de ${ano}`}</h2>
+            <h1>{`${mesesDoAno[mesAtual]} de ${ano}`}</h1>
 
-            <div
-                style={{
-                    paddingTop: '30px',
-                    width: '35rem'
-                }}
-            >
-                <div style={{ display: 'inline-flex' }}>
-                    {forEachEnum(DiaDaSemana, ({ value, label }) => (
-                        <div
-                            className={style.diaSemanacalendario}
-                            key={label}
-                        >
-                            {obterDescricaoDiaDaSemana(value)}
-                        </div>
-                    ))}
-                </div>
+            <div className={style.calendario}>
+                {forEachEnum(DiaDaSemana, ({ value, label }) => (
+                    <div
+                        className={style.diaSemanacalendario}
+                        key={label}
+                    >
+                        {obterDescricaoDiaDaSemana(value)}
+                    </div>
+                ))}
 
                 {Array.from({ length: diasMesAnterior }, (_, chavinha) => {
                     return (
                         <div
-                            style={{
-                                display: 'inline-flex'
-                            }}
+                            className={style.diaCalendario}
                             key={Math.floor(Math.random() * 99999999999)}
                         >
                             <div className={style.fakeDia}></div>
@@ -112,13 +103,9 @@ export default function Painel() {
                 })}
 
                 {Array.from({ length: diasDoMes[mesAtual] }, (_, index) => {
-                    console.log((index + 1) % 7 === 0);
                     return (
                         <div
-                            style={{
-                                display: 'inline-flex',
-                                pointerEvents: 'auto'
-                            }}
+                            className={style.diaCalendario}
                             key={index}
                         >
                             <button
@@ -126,26 +113,12 @@ export default function Painel() {
                                 onClick={event =>
                                     botaoCliqueCalendario(index + 1)
                                 }
-                                // onMouseMove={handleMouseMove}
                                 onMouseEnter={handleMouseMove}
                                 onMouseLeave={handleMouseLeave}
                                 style={{ pointerEvents: 'auto' }}
                             >
                                 {`${index + 1}`}
                             </button>
-
-                            {(diasIniciais + index + 1) % 7 === 0 ? (
-                                <button
-                                    className={style.celulaCalendario}
-                                    style={{ pointerEvents: 'auto' }}
-                                >
-                                    {`SEMANA`}
-                                </button>
-                            ) : null}
-
-                            {(diasIniciais + index + 1) % 7 === 0
-                                ? (diasIniciais = 0)
-                                : ''}
                         </div>
                     );
                 })}
@@ -154,7 +127,6 @@ export default function Painel() {
                 style={{
                     display: 'inline-flex',
                     paddingTop: '10px',
-                    width: '35rem',
                     justifyContent: 'flex-end',
                     paddingRight: '40px'
                 }}

@@ -29,19 +29,19 @@ export const obterDescricaoDiaDaSemana = (
 ): string => {
     switch (diaDaSemana) {
         case DiaDaSemana.Domingo:
-            return 'Domingo';
+            return 'Dom';
         case DiaDaSemana.Segunda:
-            return completo ? 'Segunda-feira' : 'Segunda';
+            return completo ? 'Segunda-feira' : 'Seg';
         case DiaDaSemana.Terça:
-            return completo ? 'Terça-feira' : 'Terça';
+            return completo ? 'Terça-feira' : 'Ter';
         case DiaDaSemana.Quarta:
-            return completo ? 'Quarta-feira' : 'Quarta';
+            return completo ? 'Quarta-feira' : 'Qua';
         case DiaDaSemana.Quinta:
-            return completo ? 'Quinta-feira' : 'Quinta';
+            return completo ? 'Quinta-feira' : 'Qui';
         case DiaDaSemana.Sexta:
-            return completo ? 'Sexta-feira' : 'Sexta';
+            return completo ? 'Sexta-feira' : 'Sex';
         case DiaDaSemana.Sabado:
-            return 'Sábado';
+            return 'Sáb';
         default:
             return '';
     }
